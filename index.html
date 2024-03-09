@@ -25,12 +25,14 @@
           class="my-3 p-3 d-flex align-items-start justify-content-start flex-wrap bg-dark"
         ></div>
       </div>
+      
       <div class="card col-12 col-sm-4 bg-warning text-dark offset-1 shadow-lg">
         <div class="card-body">
           <h5 class="card-title">Registrar animal en:</h5>
           <h6 class="card-subtitle mb-2 text-muted">
             Ingrese los datos del animal
           </h6>
+          <p class="errorNombre" style="color:red;font-style: italic;"></p>
           <hr />
           <div class="card-text my-3">
             <div class="form-group">
@@ -43,6 +45,7 @@
                 <option value="Serpiente">Serpiente</option>
                 <option value="Aguila">Águila</option>
               </select>
+              <p class="errorAnimal" style="color:red;font-style: italic;"></p>
             </div>
 
             <div class="form-group">
@@ -57,6 +60,7 @@
                 <option value="8 - 10 años">8 - 10 años</option>
                 <option value="Más de 10 años">Más de 10 años</option>
               </select>
+              <p class="errorEdad" style="color:red;font-style: italic;"></p>
             </div>
 
             <div class="form-group">
@@ -66,6 +70,7 @@
                 class="form-control shadow-lg bg-dark text-white"
                 id="comentarios"
               ></textarea>
+              <p class="errorMsg" style="color:red;font-style: italic;"></p>
             </div>
 
             <div class="p-5 card bg-dark">
