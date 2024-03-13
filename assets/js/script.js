@@ -1,17 +1,14 @@
 /*declaracion de variables*programada*/
-const boton = document.getElementById('btnRegistrar').addEventListener("click", getResultado)
+const boton = document.getElementById('btnRegistrar');
 
 /*funcion validacion*reciclada*/
-//*puedo eliminar el form y enlazarlo con el addevent?*//
-let form = document.getElementById("form");
-form.addEventListener( "btnRegistrar", function (event) {
+boton.addEventListener( "btnRegistrar", function (event) {
     event.preventDefault();
     limpiarErrores();
-    let textNombre = document.querySelector(".textNombre").value;
-    let textAsunt = document.querySelector(".textAnimal").value;
-    let textAnimal = document.querySelector(".textEdad").value; 
-    let textMensaje = document.querySelector(".textMsg").value;
-    let resultado = validar(textNombre,textAnimal, textEdad, textMsg);
+    let textAnimal = document.querySelector(".textAnimal").value;
+    let textEdad = document.querySelector(".textEdad").value; 
+    let textMsg = document.querySelector(".textMsg").value;
+    let resultado = validar(textAnimal, textEdad, textMsg);
 
     if (resultado == true){
         exito();
@@ -20,14 +17,12 @@ form.addEventListener( "btnRegistrar", function (event) {
 
 function limpiarErrores() {
     document.querySelector(".resultado").innerHTML = "";
-    document.querySelector(".errorNombre").innerHTML = "";
     document.querySelector(".errorAnimal").innerHTML = "";
     document.querySelector(".errorEdad").innerHTML = "";
     document.querySelector(".errorMsg").innerHTML = "";
 };
 
-function exito() {
-    //document.querySelector(".resultado").innerHTML = "Formulario validado, nos contactaremos a la brevedad";   
+function exito() {  
     setTimeout (() => {
         alert("La informacion ha sido guardada, desplegando...");
     }, 100);
@@ -35,11 +30,6 @@ function exito() {
 
 function validar(nombre,animal, edad, msg) {
     let pasamosLaValidacion = true;
-    let validacionNombre = /[a-zA-Z0-9 ]/i;
-    if (validacionNombre.test(nombre) == false) {
-        document.querySelector(".errorNombre").innerHTML = "Ingrese un nombre válido, por favor.";
-        pasamosLaValidacion = false;
-    };
     let validacionAnimal = /[a-zA-Z0-9 ]/i;
     if (validacionAnimal.test(animal) == false) {
         document.querySelector(".errorAnimal").innerHTML = "Elija uno de los animales listados, por favor.";
@@ -57,7 +47,7 @@ function validar(nombre,animal, edad, msg) {
     };
     return pasamosLaValidacion;
 };
-/*funcion traer*integrada al verificador*/
+
 /*definicion de herencias*programada*/
 class Animal{
     constructor(nombre, edad, img, comentarios, sonido) {
@@ -112,7 +102,6 @@ async function getResultado (){
     try {
         const resultado = await fetch(url);
         const data = await resultado.json()
-        /*const limiter = data.slice(0,20);*no creo que sea necesario*/
         console.log(limiter)
         limiter.forEach(value =>{ /*tengo la sensacion que necesitare el foreach, pero no el contenido de este*/
             // const myLi = document.createElement("li");
