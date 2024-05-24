@@ -1,0 +1,26 @@
+Root
+   |index.html
+   |animales.json
+   |assets
+         |css
+         |  |estilos.css
+         |
+         |imgs
+         |   |Aguila.png
+         |   |audio.svg
+         |   |fondo.jpg
+         |   |Leon.png
+         |   |lion.svg
+         |   |Lobo.jpg
+         |   |Oso.jpg
+         |   |Serpiente.jpg
+         |
+         |js
+         | |server.js
+         |
+         |sounds
+               |Aullido.mp3
+               |Chillido.mp3
+               |Grunido.mp3
+               |Rugido.mp3
+               |Siseo.mp3

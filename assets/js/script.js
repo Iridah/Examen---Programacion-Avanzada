@@ -1,119 +1,84 @@
-/*declaracion de variables*programada*/
-const boton = document.getElementById('btnRegistrar');
+import { Leon, Lobo, Oso, Serpiente, Aguila } from './Animal.js';
 
-/*funcion validacion*reciclada*/
-boton.addEventListener( "btnRegistrar", function (event) {
-    event.preventDefault();
-    limpiarErrores();
-    let textAnimal = document.querySelector(".textAnimal").value;
-    let textEdad = document.querySelector(".textEdad").value; 
-    let textMsg = document.querySelector(".textMsg").value;
-    let resultado = validar(textAnimal, textEdad, textMsg);
+document.getElementById('btnRegistrar').addEventListener('click', async () => {
+  const animalSelect = document.getElementById('animal');
+  const edadSelect = document.getElementById('edad');
+  const comentariosInput = document.getElementById('comentarios');
 
-    if (resultado == true){
-        exito();
-    };
+  const animal = animalSelect.value;
+  const edad = edadSelect.value;
+  const comentarios = comentariosInput.value;
+
+  if (!animal || !edad || !comentarios) {
+    alert('Todos los datos deben estar completados');
+    return;
+  }
+
+  const response = await fetch('/animales');
+  const data = await response.json();
+  const animalData = data.animales.find(a => a.name === animal);
+
+  let newAnimal;
+  switch (animal) {
+    case 'Leon':
+      newAnimal = new Leon(animal, edad, animalData.imagen, comentarios, animalData.sonido);
+      break;
+    case 'Lobo':
+      newAnimal = new Lobo(animal, edad, animalData.imagen, comentarios, animalData.sonido);
+      break;
+    case 'Oso':
+      newAnimal = new Oso(animal, edad, animalData.imagen, comentarios, animalData.sonido);
+      break;
+    case 'Serpiente':
+      newAnimal = new Serpiente(animal, edad, animalData.imagen, comentarios, animalData.sonido);
+      break;
+    case 'Aguila':
+      newAnimal = new Aguila(animal, edad, animalData.imagen, comentarios, animalData.sonido);
+      break;
+  }
+
+  addAnimalToTable(newAnimal);
+  resetForm();
 });
 
-function limpiarErrores() {
-    document.querySelector(".resultado").innerHTML = "";
-    document.querySelector(".errorAnimal").innerHTML = "";
-    document.querySelector(".errorEdad").innerHTML = "";
-    document.querySelector(".errorMsg").innerHTML = "";
-};
-
-function exito() {  
-    setTimeout (() => {
-        alert("La informacion ha sido guardada, desplegando...");
-    }, 100);
-};
-
-function validar(nombre,animal, edad, msg) {
-    let pasamosLaValidacion = true;
-    let validacionAnimal = /[a-zA-Z0-9 ]/i;
-    if (validacionAnimal.test(animal) == false) {
-        document.querySelector(".errorAnimal").innerHTML = "Elija uno de los animales listados, por favor.";
-        pasamosLaValidacion = false;
-    };
-    let validacionEdad = /[a-zA-Z0-9 ]/i;
-    if (validacionEdad.test(edad) == false) {
-        document.querySelector(".errorEdad").innerHTML = "Ingrese la edad, por favor.";
-        pasamosLaValidacion = false;
-    };
-    let validacionMsg = /[a-zA-Z0-9 ]/i;
-    if (validacionMsg.test(msg) == false) {
-        document.querySelector(".errorMsg").innerHTML = "El campo no puede quedar en blanco.";
-        pasamosLaValidacion = false;
-    };
-    return pasamosLaValidacion;
-};
-
-/*definicion de herencias*programada*/
-class Animal{
-    constructor(nombre, edad, img, comentarios, sonido) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.img = img;
-        this.comentarios = comentarios;
-        this.sonido = sonido;
-    }
+function addAnimalToTable(animal) {
+  const animalTable = document.getElementById('Animales');
+  const animalDiv = document.createElement('div');
+  animalDiv.classList.add('participante');
+  animalDiv.innerHTML = `
+    <div class="card">
+      <img src="assets/imgs/${animal.Img}" class="card-img-top" alt="${animal.Nombre}">
+      <div class="card-body">
+        <h5 class="card-title">${animal.Nombre}</h5>
+        <p class="card-text">${animal.Edad}</p>
+        <p class="card-text">${animal.comentarios}</p>
+        <button class="btn btn-primary" onclick="playSound('${animal.Sonido}')">Reproducir sonido</button>
+      </div>
+    </div>
+  `;
+  animalDiv.addEventListener('click', () => showModal(animal));
+  animalTable.appendChild(animalDiv);
 }
 
-class Leon extends Animal {
-    constructor(nombre, edad, img, comentarios, sonido) {
-        super(nombre, edad, img, comentarios, sonido)
-    }
+function resetForm() {
+  document.getElementById('animal').value = '';
+  document.getElementById('edad').value = '';
+  document.getElementById('comentarios').value = '';
 }
 
-class Lobo extends Animal {
-    constructor(nombre, edad, img, comentarios, sonido) {
-        super(nombre, edad, img, comentarios, sonido)
-    }
+function playSound(sound) {
+  const player = document.getElementById('player');
+  player.src = `assets/sounds/${sound}`;
+  player.play();
 }
 
-class Oso extends Animal {
-    constructor(nombre, edad, img, comentarios, sonido) {
-        super(nombre, edad, img, comentarios, sonido)
-    }
+function showModal(animal) {
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.innerHTML = `
+    <h5>${animal.Nombre}</h5>
+    <img src="assets/imgs/${animal.Img}" alt="${animal.Nombre}" class="img-fluid">
+    <p>Edad: ${animal.Edad}</p>
+    <p>Comentarios: ${animal.comentarios}</p>
+  `;
+  $('#exampleModal').modal('show');
 }
-
-class Serpiente extends Animal {
-    constructor(nombre, edad, img, comentarios, sonido) {
-        super(nombre, edad, img, comentarios, sonido)
-    }
-}
-
-class Aguila extends Animal {
-    constructor(nombre, edad, img, comentarios, sonido) {
-        super(nombre, edad, img, comentarios, sonido)
-    }
-}
-
-/*ingreso de variables*programada*/
-const leon1 = new Leon("","","","","","")
-const lobo1 = new Lobo("","","","","","")
-const oso1 = new Oso("","","","","","")
-const Serp1 = new Serpiente("","","","","","")
-const Agui1 = new Aguila("","","","","","")
-
-/*async y await*reciclada y modificada*/
-async function getResultado (){
-    const url = "https://jsonplaceholder.typicode.com/posts";
-    try {
-        const resultado = await fetch(url);
-        const data = await resultado.json()
-        console.log(limiter)
-        limiter.forEach(value =>{ /*tengo la sensacion que necesitare el foreach, pero no el contenido de este*/
-            // const myLi = document.createElement("li");
-            // const mytitle = document.createElement("h1");
-            // mytitle.textContent = value.title;
-            // myLi.appendChild(mytitle);
-            // const myBody = document.createElement('p');
-            // myBody.textContent = value.body;
-            // myLi.appendChild(myBody);
-            // menuList.appendChild(myLi);
-        });
-    } catch (error) {
-        console.log(error);
-    };
-};
